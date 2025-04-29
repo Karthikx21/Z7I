@@ -11,4 +11,5 @@ import com.z7i.erp.model.Users;
 public interface UserRepository extends JpaRepository<Users, Long> {
     Optional<Users> findByUsername(String username);
     Optional<Users> findByUsernameAndEmail(String username, String email);
+    Optional<Users> findByUsernameOrEmail(String username, String email);
 }

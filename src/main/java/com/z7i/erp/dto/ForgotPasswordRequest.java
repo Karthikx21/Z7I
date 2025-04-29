@@ -1,6 +1,5 @@
 package com.z7i.erp.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -8,10 +7,6 @@ public class ForgotPasswordRequest {
 
     @NotBlank(message = "Username is mandatory")
     private String username;
-
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
-    private String email;
 
     @NotBlank(message = "New password is mandatory")
     @Size(min = 6, message = "Password must be at least 6 characters")
@@ -28,14 +23,6 @@ public class ForgotPasswordRequest {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getNewPassword() {

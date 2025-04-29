@@ -50,13 +50,13 @@ public class AuthController {
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         logger.info("Forgot password request received for user: {}", request.getUsername());
-        boolean success = authService.resetPassword(request.getUsername(), request.getEmail(), request.getNewPassword(), request.getConfirmPassword());
+        boolean success = authService.resetPassword(request.getUsername(), request.getNewPassword(), request.getConfirmPassword());
         if (success) {
             logger.info("Password changed successfully for user: {}", request.getUsername());
             return ResponseEntity.ok("Password changed successfully");
         } else {
             logger.warn("Failed password change attempt for user: {}", request.getUsername());
-            return ResponseEntity.badRequest().body("Invalid username/email or passwords do not match");
+            return ResponseEntity.badRequest().body("Invalid username or passwords do not match");
         }
     }
 
@@ -104,16 +104,16 @@ public class AuthController {
     }
 
     @GetMapping("/generate-qr-code")
-    public ResponseEntity<byte[]> generateQRCode(@RequestParam String username,
+    public ResponseEntity<byte[]> generateQRCode(@RequestParam String usernameOrEmail,
                                                  @RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized".getBytes());
         }
-        String secretKey = authService.generateAndSaveSecretForUser(username);
+        String secretKey = authService.generateAndSaveSecretForUser(usernameOrEmail);
         if (secretKey == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found".getBytes());
         }
-        return otpQrCodeService.generateQRCode(username, secretKey);
+        return otpQrCodeService.generateQRCode(usernameOrEmail, secretKey);
     }
 
     @ExceptionHandler(Exception.class)
