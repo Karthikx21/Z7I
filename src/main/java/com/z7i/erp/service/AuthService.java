@@ -21,8 +21,8 @@ public class AuthService {
         this.otpService = otpService;
     }
 
-    public Optional<Users> authenticate(String username, String password) {
-        Optional<Users> userOpt = userRepository.findByUsername(username);
+    public Optional<Users> authenticate(String usernameOrEmail, String password) {
+        Optional<Users> userOpt = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
             if (passwordEncoder.matches(password, user.getPassword())) {
@@ -49,13 +49,13 @@ public class AuthService {
         return userRepository.findByUsername(username);
     }
 
-    public String generateAndSaveSecretForUser(String username) {
-        Optional<Users> userOpt = userRepository.findByUsername(username);
+    public String generateAndSaveSecretForUser(String usernameOrEmail) {
+        Optional<Users> userOpt = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
             String secret = user.getTotpSecret();
             if (secret == null || secret.isEmpty()) {
-                secret = otpService.generateSecretForUser(username);
+                secret = otpService.generateSecretForUser(user.getUsername());
                 user.setTotpSecret(secret);
                 userRepository.save(user);
             }
@@ -64,11 +64,11 @@ public class AuthService {
         return null;
     }
 
-    public boolean resetPassword(String username, String email, String newPassword, String confirmPassword) {
+    public boolean resetPassword(String username, String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword)) {
             return false;
         }
-        Optional<Users> userOpt = userRepository.findByUsernameAndEmail(username, email);
+        Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
             user.setPassword(passwordEncoder.encode(newPassword));
