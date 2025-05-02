@@ -1,8 +1,6 @@
 package com.z7i.erp.model;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,14 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -40,24 +35,33 @@ public class Users implements UserDetails {
     @Column(name = "totp_secret")
     private String totpSecret;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id", nullable = false),
-        inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false)
-    )
-    private Set<Role> roles;
+    @Column(nullable = false)
+    private String role;
+
+    @Transient
+    private boolean needsQrSetup;
+
+    @Transient
+    private String tempTotpSecret;
+
+    public String getTempTotpSecret() {
+        return tempTotpSecret;
+    }
+
+    public void setTempTotpSecret(String tempTotpSecret) {
+        this.tempTotpSecret = tempTotpSecret;
+    }
 
     // Constructors
     public Users() {}
 
-    public Users(String username, String password, String mobile, String email, String totpSecret, Set<Role> roles) {
+    public Users(String username, String password, String mobile, String email, String totpSecret, String role) {
         this.username = username;
         this.password = password;
         this.mobile = mobile;
         this.email = email;
         this.totpSecret = totpSecret;
-        this.roles = roles;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -112,21 +116,23 @@ public class Users implements UserDetails {
         this.totpSecret = totpSecret;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isNeedsQrSetup() {
+        return this.totpSecret == null || this.totpSecret.isEmpty();
     }
 
     // UserDetails interface methods
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toSet());
+        return java.util.Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
