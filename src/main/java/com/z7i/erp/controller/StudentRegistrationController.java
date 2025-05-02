@@ -17,7 +17,7 @@ import com.z7i.erp.dto.HallTicketResponse;
 import com.z7i.erp.dto.PaymentRequest;
 import com.z7i.erp.dto.StudentRegistrationRequest;
 import com.z7i.erp.model.StudentRegistration;
-import com.z7i.erp.service.StudentRegistrationService;
+import com.z7i.erp.service.StudentRegistrationServiceInterface;
 
 @RestController
 @RequestMapping("/api/student")
@@ -25,9 +25,9 @@ public class StudentRegistrationController {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentRegistrationController.class);
 
-    private final StudentRegistrationService studentRegistrationService;
+    private final StudentRegistrationServiceInterface studentRegistrationService;
 
-    public StudentRegistrationController(StudentRegistrationService studentRegistrationService) {
+    public StudentRegistrationController(StudentRegistrationServiceInterface studentRegistrationService) {
         this.studentRegistrationService = studentRegistrationService;
     }
 

@@ -15,7 +15,7 @@ import com.z7i.erp.model.StudentRegistration;
 import com.z7i.erp.repository.StudentRegistrationRepository;
 
 @Service
-public class StudentRegistrationService {
+public class StudentRegistrationService implements StudentRegistrationServiceInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(StudentRegistrationService.class);
 
@@ -25,6 +25,7 @@ public class StudentRegistrationService {
         this.studentRegistrationRepository = studentRegistrationRepository;
     }
 
+    @Override
     @Transactional
     public StudentRegistration registerStudent(StudentRegistrationRequest request) {
         try {
@@ -94,6 +95,7 @@ public class StudentRegistrationService {
         }
     }
 
+    @Override
     public boolean processPayment(PaymentRequest paymentRequest) {
         try {
             // Stub for payment processing logic
@@ -106,6 +108,7 @@ public class StudentRegistrationService {
         }
     }
 
+    @Override
     public Optional<HallTicketResponse> generateHallTicket(String registrationNumber) {
         try {
             Optional<StudentRegistration> studentOpt = studentRegistrationRepository.findByRegistrationNumber(registrationNumber);

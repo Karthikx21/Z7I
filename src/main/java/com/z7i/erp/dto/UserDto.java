@@ -1,21 +1,21 @@
 package com.z7i.erp.dto;
 
-import java.util.List;
-
 public class UserDto {
 
     private Long id;
     private String username;
     private String email;
-    private List<String> roles;
+    private String role;
+    private boolean needsQrSetup;
 
     public UserDto() {}
 
-    public UserDto(Long id, String username, String email, List<String> roles) {
+    public UserDto(Long id, String username, String email, String role, boolean needsQrSetup) {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.roles = roles;
+        this.role = role;
+        this.needsQrSetup = needsQrSetup;
     }
 
     // Getters and Setters
@@ -44,11 +44,19 @@ public class UserDto {
         this.email = email;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isNeedsQrSetup() {
+        return needsQrSetup;
+    }
+
+    public void setNeedsQrSetup(boolean needsQrSetup) {
+        this.needsQrSetup = needsQrSetup;
     }
 }
