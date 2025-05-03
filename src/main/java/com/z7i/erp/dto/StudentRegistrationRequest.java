@@ -1,437 +1,391 @@
 package com.z7i.erp.dto;
 
-public class StudentRegistrationRequest {
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
+// StudentRegistrationRequest.java
+import lombok.Data;
+
+@Data
+public class StudentRegistrationRequest {
     private String registrationNumber;
-    private String studentMobileNumber;
-    private String studentFirstName;
-    private String studentMiddleName;
-    private String studentLastName;
-    private java.time.LocalDate dateOfBirth;
+    private String mobileNumber;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private LocalDate dateOfBirth;
     private String gender;
-    private String streamChoice;
-    private String category;
-    private java.time.LocalDate testDate;
+    private List<String> stream;
+    private List<String> category;
+    private String testDateDay;
+    private String testDateMonth;
+    private String testDateYear;
     private String registrationCentreCode;
     private String studyCentreCode;
     private String testCentreCode;
-    private String currentClass;
-    private String hallTicketMode;
-    private String studentEmail;
-    private String fatherEmail;
-    private String motherEmail;
-    private String fatherMobile;
-    private String motherMobile;
+    private String classPresentlyStudying;
+    private Map<String, String> email;
+    private Map<String, String> mobile;
     private String preferredEmail;
     private String preferredMobile;
-    private String currentAddress;
-    private String currentPin;
-    private String permanentAddress;
-    private String permanentPin;
-    private String schoolName;
-    private String schoolAddress;
-    private String schoolCity;
-    private String schoolState;
-    private String schoolPin;
-    private String schoolTelNo;
-    private String schoolBoard;
-    private String currentOrLastClassRank;
-    private String principalName;
-    private String teacherNameMathematics;
-    private String teacherNamePhysics;
-    private String teacherNameChemistry;
-    private String teacherNameBiology;
-    private String fatherName;
-    private String fatherQualification;
-    private String fatherOccupation;
-    private String fatherDesignation;
-    private String motherName;
-    private String motherQualification;
-    private String motherOccupation;
-    private String motherDesignation;
-    private String scholasticAchievements;
+    private Map<String, Object> address;
+    private Map<String, Object> school;
+    private Map<String, Object> parents;
+    private Map<String, Object> achievements;
+    private List<Map<String, Object>> siblings;
 
+    
+
+    /**
+     * @return String return the registrationNumber
+     */
     public String getRegistrationNumber() {
         return registrationNumber;
     }
 
+    /**
+     * @param registrationNumber the registrationNumber to set
+     */
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
-    public String getStudentMobileNumber() {
-        return studentMobileNumber;
+    /**
+     * @return String return the mobileNumber
+     */
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setStudentMobileNumber(String studentMobileNumber) {
-        this.studentMobileNumber = studentMobileNumber;
+    /**
+     * @param mobileNumber the mobileNumber to set
+     */
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
-    public String getStudentFirstName() {
-        return studentFirstName;
+    /**
+     * @return String return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStudentFirstName(String studentFirstName) {
-        this.studentFirstName = studentFirstName;
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getStudentMiddleName() {
-        return studentMiddleName;
+    /**
+     * @return String return the middleName
+     */
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setStudentMiddleName(String studentMiddleName) {
-        this.studentMiddleName = studentMiddleName;
+    /**
+     * @param middleName the middleName to set
+     */
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getStudentLastName() {
-        return studentLastName;
+    /**
+     * @return String return the lastName
+     */
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setStudentLastName(String studentLastName) {
-        this.studentLastName = studentLastName;
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public java.time.LocalDate getDateOfBirth() {
+    /**
+     * @return LocalDate return the dateOfBirth
+     */
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(java.time.LocalDate dateOfBirth) {
+    /**
+     * @param dateOfBirth the dateOfBirth to set
+     */
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    /**
+     * @return String return the gender
+     */
     public String getGender() {
         return gender;
     }
 
+    /**
+     * @param gender the gender to set
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public String getStreamChoice() {
-        return streamChoice;
+    /**
+     * @return List<String> return the stream
+     */
+    public List<String> getStream() {
+        return stream;
     }
 
-    public void setStreamChoice(String streamChoice) {
-        this.streamChoice = streamChoice;
+    /**
+     * @param stream the stream to set
+     */
+    public void setStream(List<String> stream) {
+        this.stream = stream;
     }
 
-    public String getCategory() {
+    /**
+     * @return List<String> return the category
+     */
+    public List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(List<String> category) {
         this.category = category;
     }
 
-    public java.time.LocalDate getTestDate() {
-        return testDate;
+    /**
+     * @return String return the testDateDay
+     */
+    public String getTestDateDay() {
+        return testDateDay;
     }
 
-    public void setTestDate(java.time.LocalDate testDate) {
-        this.testDate = testDate;
+    /**
+     * @param testDateDay the testDateDay to set
+     */
+    public void setTestDateDay(String testDateDay) {
+        this.testDateDay = testDateDay;
     }
 
+    /**
+     * @return String return the testDateMonth
+     */
+    public String getTestDateMonth() {
+        return testDateMonth;
+    }
+
+    /**
+     * @param testDateMonth the testDateMonth to set
+     */
+    public void setTestDateMonth(String testDateMonth) {
+        this.testDateMonth = testDateMonth;
+    }
+
+    /**
+     * @return String return the testDateYear
+     */
+    public String getTestDateYear() {
+        return testDateYear;
+    }
+
+    /**
+     * @param testDateYear the testDateYear to set
+     */
+    public void setTestDateYear(String testDateYear) {
+        this.testDateYear = testDateYear;
+    }
+
+    /**
+     * @return String return the registrationCentreCode
+     */
     public String getRegistrationCentreCode() {
         return registrationCentreCode;
     }
 
+    /**
+     * @param registrationCentreCode the registrationCentreCode to set
+     */
     public void setRegistrationCentreCode(String registrationCentreCode) {
         this.registrationCentreCode = registrationCentreCode;
     }
 
+    /**
+     * @return String return the studyCentreCode
+     */
     public String getStudyCentreCode() {
         return studyCentreCode;
     }
 
+    /**
+     * @param studyCentreCode the studyCentreCode to set
+     */
     public void setStudyCentreCode(String studyCentreCode) {
         this.studyCentreCode = studyCentreCode;
     }
 
+    /**
+     * @return String return the testCentreCode
+     */
     public String getTestCentreCode() {
         return testCentreCode;
     }
 
+    /**
+     * @param testCentreCode the testCentreCode to set
+     */
     public void setTestCentreCode(String testCentreCode) {
         this.testCentreCode = testCentreCode;
     }
 
-    public String getCurrentClass() {
-        return currentClass;
+    /**
+     * @return String return the classPresentlyStudying
+     */
+    public String getClassPresentlyStudying() {
+        return classPresentlyStudying;
     }
 
-    public void setCurrentClass(String currentClass) {
-        this.currentClass = currentClass;
+    /**
+     * @param classPresentlyStudying the classPresentlyStudying to set
+     */
+    public void setClassPresentlyStudying(String classPresentlyStudying) {
+        this.classPresentlyStudying = classPresentlyStudying;
     }
 
-    public String getHallTicketMode() {
-        return hallTicketMode;
+    /**
+     * @return Map<String, String> return the email
+     */
+    public Map<String, String> getEmail() {
+        return email;
     }
 
-    public void setHallTicketMode(String hallTicketMode) {
-        this.hallTicketMode = hallTicketMode;
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(Map<String, String> email) {
+        this.email = email;
     }
 
-    public String getStudentEmail() {
-        return studentEmail;
+    /**
+     * @return Map<String, String> return the mobile
+     */
+    public Map<String, String> getMobile() {
+        return mobile;
     }
 
-    public void setStudentEmail(String studentEmail) {
-        this.studentEmail = studentEmail;
+    /**
+     * @param mobile the mobile to set
+     */
+    public void setMobile(Map<String, String> mobile) {
+        this.mobile = mobile;
     }
 
-    public String getFatherEmail() {
-        return fatherEmail;
-    }
-
-    public void setFatherEmail(String fatherEmail) {
-        this.fatherEmail = fatherEmail;
-    }
-
-    public String getMotherEmail() {
-        return motherEmail;
-    }
-
-    public void setMotherEmail(String motherEmail) {
-        this.motherEmail = motherEmail;
-    }
-
-    public String getFatherMobile() {
-        return fatherMobile;
-    }
-
-    public void setFatherMobile(String fatherMobile) {
-        this.fatherMobile = fatherMobile;
-    }
-
-    public String getMotherMobile() {
-        return motherMobile;
-    }
-
-    public void setMotherMobile(String motherMobile) {
-        this.motherMobile = motherMobile;
-    }
-
+    /**
+     * @return String return the preferredEmail
+     */
     public String getPreferredEmail() {
         return preferredEmail;
     }
 
+    /**
+     * @param preferredEmail the preferredEmail to set
+     */
     public void setPreferredEmail(String preferredEmail) {
         this.preferredEmail = preferredEmail;
     }
 
+    /**
+     * @return String return the preferredMobile
+     */
     public String getPreferredMobile() {
         return preferredMobile;
     }
 
+    /**
+     * @param preferredMobile the preferredMobile to set
+     */
     public void setPreferredMobile(String preferredMobile) {
         this.preferredMobile = preferredMobile;
     }
 
-    public String getCurrentAddress() {
-        return currentAddress;
+    /**
+     * @return Map<String, Object> return the address
+     */
+    public Map<String, Object> getAddress() {
+        return address;
     }
 
-    public void setCurrentAddress(String currentAddress) {
-        this.currentAddress = currentAddress;
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(Map<String, Object> address) {
+        this.address = address;
     }
 
-    public String getCurrentPin() {
-        return currentPin;
+    /**
+     * @return Map<String, Object> return the school
+     */
+    public Map<String, Object> getSchool() {
+        return school;
     }
 
-    public void setCurrentPin(String currentPin) {
-        this.currentPin = currentPin;
+    /**
+     * @param school the school to set
+     */
+    public void setSchool(Map<String, Object> school) {
+        this.school = school;
     }
 
-    public String getPermanentAddress() {
-        return permanentAddress;
+    /**
+     * @return Map<String, Object> return the parents
+     */
+    public Map<String, Object> getParents() {
+        return parents;
     }
 
-    public void setPermanentAddress(String permanentAddress) {
-        this.permanentAddress = permanentAddress;
+    /**
+     * @param parents the parents to set
+     */
+    public void setParents(Map<String, Object> parents) {
+        this.parents = parents;
     }
 
-    public String getPermanentPin() {
-        return permanentPin;
+    /**
+     * @return Map<String, Object> return the achievements
+     */
+    public Map<String, Object> getAchievements() {
+        return achievements;
     }
 
-    public void setPermanentPin(String permanentPin) {
-        this.permanentPin = permanentPin;
+    /**
+     * @param achievements the achievements to set
+     */
+    public void setAchievements(Map<String, Object> achievements) {
+        this.achievements = achievements;
     }
 
-    public String getSchoolName() {
-        return schoolName;
+    /**
+     * @return List<Map<String, Object>> return the siblings
+     */
+    public List<Map<String, Object>> getSiblings() {
+        return siblings;
     }
 
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    /**
+     * @param siblings the siblings to set
+     */
+    public void setSiblings(List<Map<String, Object>> siblings) {
+        this.siblings = siblings;
     }
 
-    public String getSchoolAddress() {
-        return schoolAddress;
-    }
-
-    public void setSchoolAddress(String schoolAddress) {
-        this.schoolAddress = schoolAddress;
-    }
-
-    public String getSchoolCity() {
-        return schoolCity;
-    }
-
-    public void setSchoolCity(String schoolCity) {
-        this.schoolCity = schoolCity;
-    }
-
-    public String getSchoolState() {
-        return schoolState;
-    }
-
-    public void setSchoolState(String schoolState) {
-        this.schoolState = schoolState;
-    }
-
-    public String getSchoolPin() {
-        return schoolPin;
-    }
-
-    public void setSchoolPin(String schoolPin) {
-        this.schoolPin = schoolPin;
-    }
-
-    public String getSchoolTelNo() {
-        return schoolTelNo;
-    }
-
-    public void setSchoolTelNo(String schoolTelNo) {
-        this.schoolTelNo = schoolTelNo;
-    }
-
-    public String getSchoolBoard() {
-        return schoolBoard;
-    }
-
-    public void setSchoolBoard(String schoolBoard) {
-        this.schoolBoard = schoolBoard;
-    }
-
-    public String getCurrentOrLastClassRank() {
-        return currentOrLastClassRank;
-    }
-
-    public void setCurrentOrLastClassRank(String currentOrLastClassRank) {
-        this.currentOrLastClassRank = currentOrLastClassRank;
-    }
-
-    public String getPrincipalName() {
-        return principalName;
-    }
-
-    public void setPrincipalName(String principalName) {
-        this.principalName = principalName;
-    }
-
-    public String getTeacherNameMathematics() {
-        return teacherNameMathematics;
-    }
-
-    public void setTeacherNameMathematics(String teacherNameMathematics) {
-        this.teacherNameMathematics = teacherNameMathematics;
-    }
-
-    public String getTeacherNamePhysics() {
-        return teacherNamePhysics;
-    }
-
-    public void setTeacherNamePhysics(String teacherNamePhysics) {
-        this.teacherNamePhysics = teacherNamePhysics;
-    }
-
-    public String getTeacherNameChemistry() {
-        return teacherNameChemistry;
-    }
-
-    public void setTeacherNameChemistry(String teacherNameChemistry) {
-        this.teacherNameChemistry = teacherNameChemistry;
-    }
-
-    public String getTeacherNameBiology() {
-        return teacherNameBiology;
-    }
-
-    public void setTeacherNameBiology(String teacherNameBiology) {
-        this.teacherNameBiology = teacherNameBiology;
-    }
-
-    public String getFatherName() {
-        return fatherName;
-    }
-
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
-    }
-
-    public String getFatherQualification() {
-        return fatherQualification;
-    }
-
-    public void setFatherQualification(String fatherQualification) {
-        this.fatherQualification = fatherQualification;
-    }
-
-    public String getFatherOccupation() {
-        return fatherOccupation;
-    }
-
-    public void setFatherOccupation(String fatherOccupation) {
-        this.fatherOccupation = fatherOccupation;
-    }
-
-    public String getFatherDesignation() {
-        return fatherDesignation;
-    }
-
-    public void setFatherDesignation(String fatherDesignation) {
-        this.fatherDesignation = fatherDesignation;
-    }
-
-    public String getMotherName() {
-        return motherName;
-    }
-
-    public void setMotherName(String motherName) {
-        this.motherName = motherName;
-    }
-
-    public String getMotherQualification() {
-        return motherQualification;
-    }
-
-    public void setMotherQualification(String motherQualification) {
-        this.motherQualification = motherQualification;
-    }
-
-    public String getMotherOccupation() {
-        return motherOccupation;
-    }
-
-    public void setMotherOccupation(String motherOccupation) {
-        this.motherOccupation = motherOccupation;
-    }
-
-    public String getMotherDesignation() {
-        return motherDesignation;
-    }
-
-    public void setMotherDesignation(String motherDesignation) {
-        this.motherDesignation = motherDesignation;
-    }
-
-    public String getScholasticAchievements() {
-        return scholasticAchievements;
-    }
-
-    public void setScholasticAchievements(String scholasticAchievements) {
-        this.scholasticAchievements = scholasticAchievements;
-    }
 }
+

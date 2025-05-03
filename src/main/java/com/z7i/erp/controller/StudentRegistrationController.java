@@ -32,13 +32,14 @@ public class StudentRegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StudentRegistration> registerStudent(@RequestBody StudentRegistrationRequest request) {
+    public ResponseEntity<?> registerStudent(@RequestBody StudentRegistrationRequest request) {
         try {
-            StudentRegistration registeredStudent = studentRegistrationService.registerStudent(request);
-            return new ResponseEntity<>(registeredStudent, HttpStatus.CREATED);
+            StudentRegistration student = studentRegistrationService.registerStudent(request);
+            return ResponseEntity.ok(student);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            logger.error("Error in registerStudent: ", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(500).body("Registration failed: " + e.getMessage());
         }
     }
 
