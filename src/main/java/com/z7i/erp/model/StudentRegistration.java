@@ -1,4 +1,12 @@
- package com.z7i.erp.model;
+package com.z7i.erp.model;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,164 +14,72 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
-@Table(name = "student_registration")
+@Table(name = "registrations")
+@Data
 public class StudentRegistration {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "registration_number", length = 50)
     private String registrationNumber;
-
-    @Column(name = "student_mobile_number", length = 15, nullable = false)
-    private String studentMobileNumber;
-
-    @Column(name = "student_first_name", length = 100, nullable = false)
-    private String studentFirstName;
-
-    @Column(name = "student_middle_name", length = 100)
-    private String studentMiddleName;
-
-    @Column(name = "student_last_name", length = 15, nullable = false)
-    private String studentLastName;
-
-    @Column(name = "date_of_birth", nullable = false)
-    private java.time.LocalDate dateOfBirth;
-
-    @Column(name = "gender", length = 10)
+    private String mobileNumber;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private LocalDate dateOfBirth;
     private String gender;
 
-    @Column(name = "stream_choice", length = 50)
-    private String streamChoice;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private java.util.List<String> stream;
 
-    @Column(name = "category", length = 50)
-    private String category;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private java.util.List<String> category;
 
-    @Column(name = "test_date")
-    private java.time.LocalDate testDate;
-
-    @Column(name = "registration_centre_code", length = 20)
+    private String testDateDay;
+    private String testDateMonth;
+    private String testDateYear;
     private String registrationCentreCode;
-
-    @Column(name = "study_centre_code", length = 20)
     private String studyCentreCode;
-
-    @Column(name = "test_centre_code", length = 20)
     private String testCentreCode;
+    private String classPresentlyStudying;
 
-    @Column(name = "current_class", length = 20)
-    private String currentClass;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> email;
 
-    @Column(name = "hall_ticket_mode", length = 20)
-    private String hallTicketMode;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> mobile;
 
-    @Column(name = "student_email", length = 255)
-    private String studentEmail;
-
-    @Column(name = "father_email", length = 255)
-    private String fatherEmail;
-
-    @Column(name = "mother_email", length = 255)
-    private String motherEmail;
-
-    @Column(name = "father_mobile", length = 15)
-    private String fatherMobile;
-
-    @Column(name = "mother_mobile", length = 15)
-    private String motherMobile;
-
-    @Column(name = "preferred_email", length = 20)
     private String preferredEmail;
-
-    @Column(name = "preferred_mobile", length = 20)
     private String preferredMobile;
 
-    @Column(name = "current_address", columnDefinition = "TEXT")
-    private String currentAddress;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> address;
 
-    @Column(name = "current_pin", length = 10)
-    private String currentPin;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> school;
 
-    @Column(name = "permanent_address", columnDefinition = "TEXT")
-    private String permanentAddress;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> parents;
 
-    @Column(name = "permanent_pin", length = 10)
-    private String permanentPin;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> achievements;
 
-    @Column(name = "school_name", length = 255)
-    private String schoolName;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private List<Map<String, Object>> siblings;
 
-    @Column(name = "school_address", columnDefinition = "TEXT")
-    private String schoolAddress;
-
-    @Column(name = "school_city", length = 100)
-    private String schoolCity;
-
-    @Column(name = "school_state", length = 100)
-    private String schoolState;
-
-    @Column(name = "school_pin", length = 10)
-    private String schoolPin;
-
-    @Column(name = "school_tel_no", length = 20)
-    private String schoolTelNo;
-
-    @Column(name = "school_board", length = 100)
-    private String schoolBoard;
-
-    @Column(name = "current_or_last_class_rank", length = 50)
-    private String currentOrLastClassRank;
-
-    @Column(name = "principal_name", length = 100)
-    private String principalName;
-
-    @Column(name = "teacher_name_mathematics", length = 100)
-    private String teacherNameMathematics;
-
-    @Column(name = "teacher_name_physics", length = 100)
-    private String teacherNamePhysics;
-
-    @Column(name = "teacher_name_chemistry", length = 100)
-    private String teacherNameChemistry;
-
-    @Column(name = "teacher_name_biology", length = 100)
-    private String teacherNameBiology;
-
-    @Column(name = "father_name", length = 100)
-    private String fatherName;
-
-    @Column(name = "father_qualification", length = 100)
-    private String fatherQualification;
-
-    @Column(name = "father_occupation", length = 100)
-    private String fatherOccupation;
-
-    @Column(name = "father_designation", length = 100)
-    private String fatherDesignation;
-
-    @Column(name = "mother_name", length = 100)
-    private String motherName;
-
-    @Column(name = "mother_qualification", length = 100)
-    private String motherQualification;
-
-    @Column(name = "mother_occupation", length = 100)
-    private String motherOccupation;
-
-    @Column(name = "mother_designation", length = 100)
-    private String motherDesignation;
-
-    @Column(name = "scholastic_achievements", length = 100)
-    private String scholasticAchievements;
-
-    @Column(name = "created_at")
-    private java.time.LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private java.time.LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
     public Long getId() {
         return id;
@@ -181,43 +97,43 @@ public class StudentRegistration {
         this.registrationNumber = registrationNumber;
     }
 
-    public String getStudentMobileNumber() {
-        return studentMobileNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setStudentMobileNumber(String studentMobileNumber) {
-        this.studentMobileNumber = studentMobileNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
-    public String getStudentFirstName() {
-        return studentFirstName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setStudentFirstName(String studentFirstName) {
-        this.studentFirstName = studentFirstName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getStudentMiddleName() {
-        return studentMiddleName;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setStudentMiddleName(String studentMiddleName) {
-        this.studentMiddleName = studentMiddleName;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getStudentLastName() {
-        return studentLastName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setStudentLastName(String studentLastName) {
-        this.studentLastName = studentLastName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public java.time.LocalDate getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(java.time.LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -229,28 +145,44 @@ public class StudentRegistration {
         this.gender = gender;
     }
 
-    public String getStreamChoice() {
-        return streamChoice;
+    public java.util.List<String> getStream() {
+        return stream;
     }
 
-    public void setStreamChoice(String streamChoice) {
-        this.streamChoice = streamChoice;
+    public void setStream(java.util.List<String> stream) {
+        this.stream = stream;
     }
 
-    public String getCategory() {
+    public java.util.List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(java.util.List<String> category) {
         this.category = category;
     }
 
-    public java.time.LocalDate getTestDate() {
-        return testDate;
+    public String getTestDateDay() {
+        return testDateDay;
     }
 
-    public void setTestDate(java.time.LocalDate testDate) {
-        this.testDate = testDate;
+    public void setTestDateDay(String testDateDay) {
+        this.testDateDay = testDateDay;
+    }
+
+    public String getTestDateMonth() {
+        return testDateMonth;
+    }
+
+    public void setTestDateMonth(String testDateMonth) {
+        this.testDateMonth = testDateMonth;
+    }
+
+    public String getTestDateYear() {
+        return testDateYear;
+    }
+
+    public void setTestDateYear(String testDateYear) {
+        this.testDateYear = testDateYear;
     }
 
     public String getRegistrationCentreCode() {
@@ -277,60 +209,28 @@ public class StudentRegistration {
         this.testCentreCode = testCentreCode;
     }
 
-    public String getCurrentClass() {
-        return currentClass;
+    public String getClassPresentlyStudying() {
+        return classPresentlyStudying;
     }
 
-    public void setCurrentClass(String currentClass) {
-        this.currentClass = currentClass;
+    public void setClassPresentlyStudying(String classPresentlyStudying) {
+        this.classPresentlyStudying = classPresentlyStudying;
     }
 
-    public String getHallTicketMode() {
-        return hallTicketMode;
+    public Map<String, Object> getEmail() {
+        return email;
     }
 
-    public void setHallTicketMode(String hallTicketMode) {
-        this.hallTicketMode = hallTicketMode;
+    public void setEmail(Map<String, Object> email) {
+        this.email = email;
     }
 
-    public String getStudentEmail() {
-        return studentEmail;
+    public Map<String, Object> getMobile() {
+        return mobile;
     }
 
-    public void setStudentEmail(String studentEmail) {
-        this.studentEmail = studentEmail;
-    }
-
-    public String getFatherEmail() {
-        return fatherEmail;
-    }
-
-    public void setFatherEmail(String fatherEmail) {
-        this.fatherEmail = fatherEmail;
-    }
-
-    public String getMotherEmail() {
-        return motherEmail;
-    }
-
-    public void setMotherEmail(String motherEmail) {
-        this.motherEmail = motherEmail;
-    }
-
-    public String getFatherMobile() {
-        return fatherMobile;
-    }
-
-    public void setFatherMobile(String fatherMobile) {
-        this.fatherMobile = fatherMobile;
-    }
-
-    public String getMotherMobile() {
-        return motherMobile;
-    }
-
-    public void setMotherMobile(String motherMobile) {
-        this.motherMobile = motherMobile;
+    public void setMobile(Map<String, Object> mobile) {
+        this.mobile = mobile;
     }
 
     public String getPreferredEmail() {
@@ -349,227 +249,51 @@ public class StudentRegistration {
         this.preferredMobile = preferredMobile;
     }
 
-    public String getCurrentAddress() {
-        return currentAddress;
+    public Map<String, Object> getAddress() {
+        return address;
     }
 
-    public void setCurrentAddress(String currentAddress) {
-        this.currentAddress = currentAddress;
+    public void setAddress(Map<String, Object> address) {
+        this.address = address;
     }
 
-    public String getCurrentPin() {
-        return currentPin;
+    public Map<String, Object> getSchool() {
+        return school;
     }
 
-    public void setCurrentPin(String currentPin) {
-        this.currentPin = currentPin;
+    public void setSchool(Map<String, Object> school) {
+        this.school = school;
     }
 
-    public String getPermanentAddress() {
-        return permanentAddress;
+    public Map<String, Object> getParents() {
+        return parents;
     }
 
-    public void setPermanentAddress(String permanentAddress) {
-        this.permanentAddress = permanentAddress;
+    public void setParents(Map<String, Object> parents) {
+        this.parents = parents;
     }
 
-    public String getPermanentPin() {
-        return permanentPin;
+    public Map<String, Object> getAchievements() {
+        return achievements;
     }
 
-    public void setPermanentPin(String permanentPin) {
-        this.permanentPin = permanentPin;
+    public void setAchievements(Map<String, Object> achievements) {
+        this.achievements = achievements;
     }
 
-    public String getSchoolName() {
-        return schoolName;
+    public List<Map<String, Object>> getSiblings() {
+        return siblings;
     }
 
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
+    public void setSiblings(List<Map<String, Object>> siblings) {
+        this.siblings = siblings;
     }
 
-    public String getSchoolAddress() {
-        return schoolAddress;
-    }
-
-    public void setSchoolAddress(String schoolAddress) {
-        this.schoolAddress = schoolAddress;
-    }
-
-    public String getSchoolCity() {
-        return schoolCity;
-    }
-
-    public void setSchoolCity(String schoolCity) {
-        this.schoolCity = schoolCity;
-    }
-
-    public String getSchoolState() {
-        return schoolState;
-    }
-
-    public void setSchoolState(String schoolState) {
-        this.schoolState = schoolState;
-    }
-
-    public String getSchoolPin() {
-        return schoolPin;
-    }
-
-    public void setSchoolPin(String schoolPin) {
-        this.schoolPin = schoolPin;
-    }
-
-    public String getSchoolTelNo() {
-        return schoolTelNo;
-    }
-
-    public void setSchoolTelNo(String schoolTelNo) {
-        this.schoolTelNo = schoolTelNo;
-    }
-
-    public String getSchoolBoard() {
-        return schoolBoard;
-    }
-
-    public void setSchoolBoard(String schoolBoard) {
-        this.schoolBoard = schoolBoard;
-    }
-
-    public String getCurrentOrLastClassRank() {
-        return currentOrLastClassRank;
-    }
-
-    public void setCurrentOrLastClassRank(String currentOrLastClassRank) {
-        this.currentOrLastClassRank = currentOrLastClassRank;
-    }
-
-    public String getPrincipalName() {
-        return principalName;
-    }
-
-    public void setPrincipalName(String principalName) {
-        this.principalName = principalName;
-    }
-
-    public String getTeacherNameMathematics() {
-        return teacherNameMathematics;
-    }
-
-    public void setTeacherNameMathematics(String teacherNameMathematics) {
-        this.teacherNameMathematics = teacherNameMathematics;
-    }
-
-    public String getTeacherNamePhysics() {
-        return teacherNamePhysics;
-    }
-
-    public void setTeacherNamePhysics(String teacherNamePhysics) {
-        this.teacherNamePhysics = teacherNamePhysics;
-    }
-
-    public String getTeacherNameChemistry() {
-        return teacherNameChemistry;
-    }
-
-    public void setTeacherNameChemistry(String teacherNameChemistry) {
-        this.teacherNameChemistry = teacherNameChemistry;
-    }
-
-    public String getTeacherNameBiology() {
-        return teacherNameBiology;
-    }
-
-    public void setTeacherNameBiology(String teacherNameBiology) {
-        this.teacherNameBiology = teacherNameBiology;
-    }
-
-    public String getFatherName() {
-        return fatherName;
-    }
-
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
-    }
-
-    public String getFatherQualification() {
-        return fatherQualification;
-    }
-
-    public void setFatherQualification(String fatherQualification) {
-        this.fatherQualification = fatherQualification;
-    }
-
-    public String getFatherOccupation() {
-        return fatherOccupation;
-    }
-
-    public void setFatherOccupation(String fatherOccupation) {
-        this.fatherOccupation = fatherOccupation;
-    }
-
-    public String getFatherDesignation() {
-        return fatherDesignation;
-    }
-
-    public void setFatherDesignation(String fatherDesignation) {
-        this.fatherDesignation = fatherDesignation;
-    }
-
-    public String getMotherName() {
-        return motherName;
-    }
-
-    public void setMotherName(String motherName) {
-        this.motherName = motherName;
-    }
-
-    public String getMotherQualification() {
-        return motherQualification;
-    }
-
-    public void setMotherQualification(String motherQualification) {
-        this.motherQualification = motherQualification;
-    }
-
-    public String getMotherOccupation() {
-        return motherOccupation;
-    }
-
-    public void setMotherOccupation(String motherOccupation) {
-        this.motherOccupation = motherOccupation;
-    }
-
-    public String getMotherDesignation() {
-        return motherDesignation;
-    }
-
-    public void setMotherDesignation(String motherDesignation) {
-        this.motherDesignation = motherDesignation;
-    }
-
-    public String getScholasticAchievements() {
-        return scholasticAchievements;
-    }
-
-    public void setScholasticAchievements(String scholasticAchievements) {
-        this.scholasticAchievements = scholasticAchievements;
-    }
-
-    public java.time.LocalDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(java.time.LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public java.time.LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(java.time.LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
