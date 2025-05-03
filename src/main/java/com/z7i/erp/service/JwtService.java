@@ -1,37 +1,30 @@
 package com.z7i.erp.service;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.z7i.erp.model.Users;
-
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
 
     @Value("${jwt.secret}")
-    private String secretKeyBase64;
+    private String secretKey;
 
-    @Value("${jwt.expirationMs}")
+    @Value("${jwt.expirationMs:86400000}")
     private long jwtExpirationMs;
 
     private Key getSigningKey() {
-        byte[] keyBytes = Base64.getDecoder().decode(secretKeyBase64);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -49,47 +42,32 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException("Invalid or expired JWT token", e);
-        }
+        return Jwts.parserBuilder()
+            .setSigningKey(getSigningKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
     }
 
-    private boolean isTokenExpired(String token) {
+    private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));
-
-        if (userDetails instanceof Users user) {
-            claims.put("id", user.getId());
-            claims.put("email", user.getEmail());
-        }
-
-        return createToken(claims, userDetails.getUsername());
+        return generateToken(userDetails, jwtExpirationMs);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    public String generateToken(UserDetails userDetails, long expirationMillis) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
+            .setSubject(userDetails.getUsername())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
