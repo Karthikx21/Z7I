@@ -1,1 +1,2 @@
-java-17
+# Enhanced JVM options for low memory usage and optimized GC to prevent OOM
+JAVA_OPTS="-Xms128m -Xmx256m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:InitiatingHeapOccupancyPercent=45 -XX:G1HeapRegionSize=8m -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -XX:+HeapDumpOnOutOfMemoryError"

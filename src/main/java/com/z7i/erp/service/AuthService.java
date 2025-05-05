@@ -1,8 +1,11 @@
 package com.z7i.erp.service;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +19,6 @@ import com.z7i.erp.dto.LoginSuccessResponse;
 import com.z7i.erp.dto.OtpRequest;
 import com.z7i.erp.dto.UserDto;
 import com.z7i.erp.model.Users;
-
 import com.z7i.erp.repository.UserRepository;
 
 @Service
@@ -30,14 +32,37 @@ public class AuthService implements AuthServiceInterface {
     private final OtpService otpService;
     private final JwtService jwtService;
 
-    // In-memory cache for temporary TOTP secrets keyed by username
-    private final Map<String, String> tempSecrets = new ConcurrentHashMap<>();
+    // In-memory cache for temporary TOTP secrets keyed by username with timestamps
+    private final ConcurrentMap<String, TimedSecret> tempSecrets = new ConcurrentHashMap<>();
+
+    private static final long SECRET_EXPIRATION_MILLIS = TimeUnit.MINUTES.toMillis(10);
+
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, OtpService otpService, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.otpService = otpService;
         this.jwtService = jwtService;
+
+        // Schedule cleanup task to run every 5 minutes
+        scheduler.scheduleAtFixedRate(this::cleanupExpiredSecrets, 5, 5, TimeUnit.MINUTES);
+    }
+
+    private static class TimedSecret {
+        final String secret;
+        final long timestamp;
+
+        TimedSecret(String secret, long timestamp) {
+            this.secret = secret;
+            this.timestamp = timestamp;
+        }
+    }
+
+    private void cleanupExpiredSecrets() {
+        long now = System.currentTimeMillis();
+        tempSecrets.entrySet().removeIf(entry -> now - entry.getValue().timestamp > SECRET_EXPIRATION_MILLIS);
+        logger.info("Cleaned up expired TOTP secrets from cache");
     }
 
     @Override
@@ -107,7 +132,8 @@ public class AuthService implements AuthServiceInterface {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
-            String secret = tempSecrets.get(username);
+            TimedSecret timedSecret = tempSecrets.get(username);
+            String secret = timedSecret != null ? timedSecret.secret : null;
             if (secret == null || secret.isEmpty()) {
                 secret = user.getTotpSecret();
             }
@@ -158,10 +184,11 @@ public class AuthService implements AuthServiceInterface {
         Optional<Users> userOpt = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
-            String secret = tempSecrets.get(user.getUsername());
+            TimedSecret timedSecret = tempSecrets.get(user.getUsername());
+            String secret = timedSecret != null ? timedSecret.secret : null;
             if (secret == null || secret.isEmpty()) {
                 secret = otpService.generateSecretForUser(user.getUsername());
-                tempSecrets.put(user.getUsername(), secret);
+                tempSecrets.put(user.getUsername(), new TimedSecret(secret, System.currentTimeMillis()));
             }
             return secret;
         }
@@ -174,7 +201,8 @@ public class AuthService implements AuthServiceInterface {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent()) {
             Users user = userOpt.get();
-            String tempSecret = tempSecrets.get(username);
+            TimedSecret timedSecret = tempSecrets.get(username);
+            String tempSecret = timedSecret != null ? timedSecret.secret : null;
             if (tempSecret != null && !tempSecret.isEmpty()) {
                 user.setTotpSecret(tempSecret);
                 userRepository.save(user);
